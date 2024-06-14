@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms.DataVisualization.Charting;
 using Demo.Enums;
 using Demo.SeriesProcessors;
+using Demo.Transformers;
 
 namespace Demo
 {
@@ -24,6 +25,16 @@ namespace Demo
                 { Constants.SquareSeries,  new SquareProcessor() },
                 { Constants.SinSeries,  new SinProcessor() },
                 { Constants.RandomSeries,  new RandomProcessor() },
+            };
+
+        public static Dictionary<string, ITransformer> TransformMappings =
+
+            new Dictionary<string, ITransformer>
+            {
+                { Constants.ShiftXCheckBox,  new ShiftXTransformer() },
+                { Constants.ShiftYCheckBox,  new ShiftYTransformer() },
+                { Constants.StretchXCheckBox,  new StretchXTransformer() },
+                { Constants.StretchYCheckBox,  new StretchYTransformer() },
             };
     }
 }

@@ -44,6 +44,7 @@
             StartRangeInput = new TextBox();
             BuildButton = new Button();
             VisualizationGroupBox = new GroupBox();
+            RandomRangeLabel = new Label();
             RandomCheckBox = new CheckBox();
             SinCheckBox = new CheckBox();
             ChartTypeComboBox = new ComboBox();
@@ -71,6 +72,8 @@
             // 
             // DataChart
             // 
+            DataChart.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            DataChart.BorderlineColor = Color.Transparent;
             chartArea1.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
             chartArea1.AxisX.Crossing = 0D;
             chartArea1.AxisX.LabelStyle.Format = "N0";
@@ -84,14 +87,15 @@
             chartArea1.AxisY.MinorTickMark.Enabled = true;
             chartArea1.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
             chartArea1.AxisY.Title = "Y";
-            chartArea1.BackColor = Color.White;
+            chartArea1.BackColor = Color.Transparent;
+            chartArea1.BackSecondaryColor = Color.Transparent;
             chartArea1.CursorX.IsUserSelectionEnabled = true;
             chartArea1.CursorY.IsUserSelectionEnabled = true;
             chartArea1.Name = "ChartArea";
             DataChart.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             DataChart.Legends.Add(legend1);
-            DataChart.Location = new Point(12, 12);
+            DataChart.Location = new Point(12, 45);
             DataChart.Name = "DataChart";
             series1.BorderWidth = 3;
             series1.ChartArea = "ChartArea";
@@ -117,21 +121,22 @@
             DataChart.Series.Add(series2);
             DataChart.Series.Add(series3);
             DataChart.Series.Add(series4);
-            DataChart.Size = new Size(618, 587);
+            DataChart.Size = new Size(669, 565);
             DataChart.TabIndex = 0;
             DataChart.Text = "chart1";
             // 
             // RangeGroupBox
             // 
+            RangeGroupBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             RangeGroupBox.Controls.Add(StepLabel);
             RangeGroupBox.Controls.Add(EndRangeLabel);
             RangeGroupBox.Controls.Add(StartRangeLabel);
             RangeGroupBox.Controls.Add(StepInput);
             RangeGroupBox.Controls.Add(EndRangeInput);
             RangeGroupBox.Controls.Add(StartRangeInput);
-            RangeGroupBox.Location = new Point(636, 12);
+            RangeGroupBox.Location = new Point(704, 36);
             RangeGroupBox.Name = "RangeGroupBox";
-            RangeGroupBox.Size = new Size(254, 168);
+            RangeGroupBox.Size = new Size(255, 170);
             RangeGroupBox.TabIndex = 1;
             RangeGroupBox.TabStop = false;
             RangeGroupBox.Text = "Проміжок";
@@ -189,27 +194,44 @@
             // 
             // BuildButton
             // 
-            BuildButton.Location = new Point(724, 576);
+            BuildButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            BuildButton.BackColor = SystemColors.ActiveBorder;
+            BuildButton.FlatAppearance.BorderColor = Color.FromArgb(0, 0, 64);
+            BuildButton.FlatAppearance.BorderSize = 5;
+            BuildButton.Location = new Point(788, 587);
             BuildButton.Name = "BuildButton";
             BuildButton.Size = new Size(91, 23);
             BuildButton.TabIndex = 2;
             BuildButton.Text = "Побудувати";
-            BuildButton.UseVisualStyleBackColor = true;
+            BuildButton.UseVisualStyleBackColor = false;
             BuildButton.Click += BuildButton_Click;
             // 
             // VisualizationGroupBox
             // 
+            VisualizationGroupBox.Anchor = AnchorStyles.Right;
+            VisualizationGroupBox.BackColor = Color.Transparent;
+            VisualizationGroupBox.Controls.Add(RandomRangeLabel);
             VisualizationGroupBox.Controls.Add(RandomCheckBox);
             VisualizationGroupBox.Controls.Add(SinCheckBox);
             VisualizationGroupBox.Controls.Add(ChartTypeComboBox);
             VisualizationGroupBox.Controls.Add(LinearCheckBox);
             VisualizationGroupBox.Controls.Add(SquareCheckBox);
-            VisualizationGroupBox.Location = new Point(636, 198);
+            VisualizationGroupBox.Font = new Font("Segoe UI", 9F);
+            VisualizationGroupBox.Location = new Point(701, 201);
             VisualizationGroupBox.Name = "VisualizationGroupBox";
             VisualizationGroupBox.Size = new Size(249, 162);
             VisualizationGroupBox.TabIndex = 3;
             VisualizationGroupBox.TabStop = false;
             VisualizationGroupBox.Text = "Візуалізація";
+            // 
+            // RandomRangeLabel
+            // 
+            RandomRangeLabel.AutoSize = true;
+            RandomRangeLabel.Location = new Point(112, 103);
+            RandomRangeLabel.Name = "RandomRangeLabel";
+            RandomRangeLabel.Size = new Size(0, 15);
+            RandomRangeLabel.TabIndex = 5;
+            RandomRangeLabel.Visible = false;
             // 
             // RandomCheckBox
             // 
@@ -264,6 +286,7 @@
             // 
             // TransformationGroupBox
             // 
+            TransformationGroupBox.Anchor = AnchorStyles.Right;
             TransformationGroupBox.Controls.Add(TransformButton);
             TransformationGroupBox.Controls.Add(StretchYCheckBox);
             TransformationGroupBox.Controls.Add(StretchXCheckBox);
@@ -271,16 +294,16 @@
             TransformationGroupBox.Controls.Add(ShiftXCheckBox);
             TransformationGroupBox.Controls.Add(TransformationLabel);
             TransformationGroupBox.Controls.Add(TransformationInput);
-            TransformationGroupBox.Location = new Point(636, 366);
+            TransformationGroupBox.Location = new Point(700, 369);
             TransformationGroupBox.Name = "TransformationGroupBox";
-            TransformationGroupBox.Size = new Size(248, 204);
+            TransformationGroupBox.Size = new Size(248, 189);
             TransformationGroupBox.TabIndex = 4;
             TransformationGroupBox.TabStop = false;
             TransformationGroupBox.Text = "Трансформація";
             // 
             // TransformButton
             // 
-            TransformButton.Location = new Point(88, 171);
+            TransformButton.Location = new Point(88, 154);
             TransformButton.Name = "TransformButton";
             TransformButton.Size = new Size(91, 23);
             TransformButton.TabIndex = 6;
@@ -291,7 +314,7 @@
             // StretchYCheckBox
             // 
             StretchYCheckBox.AutoSize = true;
-            StretchYCheckBox.Location = new Point(11, 146);
+            StretchYCheckBox.Location = new Point(8, 129);
             StretchYCheckBox.Name = "StretchYCheckBox";
             StretchYCheckBox.Size = new Size(129, 19);
             StretchYCheckBox.TabIndex = 5;
@@ -301,7 +324,7 @@
             // StretchXCheckBox
             // 
             StretchXCheckBox.AutoSize = true;
-            StretchXCheckBox.Location = new Point(11, 121);
+            StretchXCheckBox.Location = new Point(8, 104);
             StretchXCheckBox.Name = "StretchXCheckBox";
             StretchXCheckBox.Size = new Size(131, 19);
             StretchXCheckBox.TabIndex = 4;
@@ -311,7 +334,7 @@
             // ShiftYCheckBox
             // 
             ShiftYCheckBox.AutoSize = true;
-            ShiftYCheckBox.Location = new Point(11, 96);
+            ShiftYCheckBox.Location = new Point(8, 79);
             ShiftYCheckBox.Name = "ShiftYCheckBox";
             ShiftYCheckBox.Size = new Size(120, 19);
             ShiftYCheckBox.TabIndex = 3;
@@ -321,7 +344,7 @@
             // ShiftXCheckBox
             // 
             ShiftXCheckBox.AutoSize = true;
-            ShiftXCheckBox.Location = new Point(11, 71);
+            ShiftXCheckBox.Location = new Point(9, 54);
             ShiftXCheckBox.Name = "ShiftXCheckBox";
             ShiftXCheckBox.Size = new Size(120, 19);
             ShiftXCheckBox.TabIndex = 2;
@@ -349,7 +372,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, aboutToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(902, 24);
+            menuStrip1.Size = new Size(971, 24);
             menuStrip1.TabIndex = 6;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -385,7 +408,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(902, 611);
+            BackColor = SystemColors.ControlLight;
+            ClientSize = new Size(971, 688);
             Controls.Add(menuStrip1);
             Controls.Add(TransformationGroupBox);
             Controls.Add(VisualizationGroupBox);
@@ -438,5 +462,6 @@
         private ToolStripMenuItem openToolStripMenuItem;
         private ToolStripMenuItem saveAsToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
+        private Label RandomRangeLabel;
     }
 }

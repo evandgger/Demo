@@ -3,6 +3,10 @@ using Demo.Forms;
 using Demo.Helpers;
 using Demo.Models;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace Demo
 {
@@ -202,18 +206,32 @@ namespace Demo
 
                 randomNumberForm.ShowDialog();
 
-                var minimum = RandomMinimum;
-                var maximum = RandomMaximum;
+                RandomRangeLabel.Text = $"({RandomMinimum};{RandomMaximum})";
+                RandomRangeLabel.Visible = true;
+            }
+            else
+            {
+                RandomMinimum = null;
+                RandomMaximum = null;
+                RandomRangeLabel.Text = string.Empty;
+                RandomRangeLabel.Visible = false;
             }
         }
 
         private void TransformButton_Click(object sender, EventArgs e)
         {
+            var checkedSeries = GetListOfCheckedSeries();
+
+            if (!checkedSeries.Any() || !DoesSeriesExist())
+            {
+                MessageBox.Show("Створіть хоча б один графік");
+
+                return;
+            }
+
             var coefficientInput = TransformationInput.Text;
 
             var isCoefficientValid = InputHelper.ParseDoubleInput(coefficientInput, TransformationLabel.Text, out var coefficient);
-
-            var checkedSeries = GetListOfCheckedSeries();
 
             if (isCoefficientValid)
             {
@@ -221,51 +239,16 @@ namespace Demo
                 {
                     var series = DataChart.Series[seriesName];
 
-                    if (ShiftXCheckBox.Checked)
+                    var controls = TransformationGroupBox.Controls;
+
+                    foreach (var control in controls)
                     {
-                        foreach (var point in series.Points)
+                        if (control is CheckBox checkBox && checkBox.Checked)
                         {
-                            var x = point.XValue + coefficient;
+                            var transformer = Configuration.TransformMappings[checkBox.Name];
 
-                            point.XValue = x;
-                        }
-                    }
-
-                    if (ShiftYCheckBox.Checked)
-                    {
-                        foreach (var point in series.Points)
-                        {
-                            var x = point.XValue;
-                            var y = point.YValues.First() + coefficient;
-
-                            point.YValues = new[] { y };
-                        }
-                    }
-
-                    if (StretchXCheckBox.Checked)
-                    {
-                        foreach (var point in series.Points)
-                        {
-                            double x = coefficient < 0
-                                ? point.XValue * Math.Abs(coefficient)
-                                : point.XValue / coefficient;
-
-                            point.XValue = x;
-                        }
-                    }
-
-                    if (StretchYCheckBox.Checked)
-                    {
-                        foreach (var point in series.Points)
-                        {
-                            var yValue = point.YValues.First();
-
-                            double y = coefficient < 0
-                                ? yValue * Math.Abs(coefficient)
-                                : yValue / coefficient;
-
-                            point.YValues = new[] { y };
-                        }
+                            transformer.Transform(series, coefficient);
+                        }                        
                     }
                 }
 
@@ -274,99 +257,137 @@ namespace Demo
             }
             else
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Перевірьте коефіцієнт");
             }
         }
 
+
+        private bool DoesSeriesExist()
+        {
+            var result = false;
+
+            foreach (var series in DataChart.Series)
+            {
+                if (series.Points.Any())
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //var aboutForm = new AboutForm();
+
+            //aboutForm.ShowDialog();
+
             // open form with info
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var dialog = new SaveFileDialog())
+            try
             {
-                dialog.Title = "Оберіть файл";
-
-                dialog.Filter = "Excel Files|*.xlsx";
-
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (var dialog = new SaveFileDialog())
                 {
-                    var filePath = dialog.FileName;
+                    dialog.Title = Constants.DialogTitle;
+                    dialog.Filter = Constants.DialogFormat;
 
-                    if (File.Exists(filePath))
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        File.Delete(filePath);
-                    }
-                    
-                    dialog.OverwritePrompt = true;
+                        var filePath = dialog.FileName;
 
-                    var fileInfo = new FileInfo(filePath);
-
-                    using (var excelPackage = new ExcelPackage(fileInfo))
-                    {
-
-                        var checkedSeries = GetListOfCheckedSeries();
-
-                        foreach (var seriesName in checkedSeries)
+                        if (File.Exists(filePath))
                         {
-                            var series = DataChart.Series[seriesName];
-
-                            var worksheet = excelPackage.Workbook.Worksheets.Add(seriesName);
-
-                            var row = 1;
-
-                            worksheet.Cells[row, 1].Value = "X";
-                            worksheet.Cells[row, 2].Value = "Y";
-
-                            row++;
-
-                            var seriesPoints = series.Points;
-
-                            foreach (var point in seriesPoints)
-                            {
-                                worksheet.Cells[row, 1].Value = point.XValue;
-                                worksheet.Cells[row, 2].Value = point.YValues.First();
-
-                                row++;
-                            }
+                            File.Delete(filePath);
                         }
 
-                        excelPackage.SaveAs(fileInfo);
+                        SaveExcelFile(filePath);
+
+                        dialog.OverwritePrompt = true;
                     }
                 }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+        }
+
+        private void SaveExcelFile(string filePath)
+        {
+            var fileInfo = new FileInfo(filePath);
+
+            using (var excelPackage = new ExcelPackage(fileInfo))
+            {
+                var checkedSeries = GetListOfCheckedSeries();
+
+                foreach (var seriesName in checkedSeries)
+                {
+                    var series = DataChart.Series[seriesName];
+
+                    var worksheet = excelPackage.Workbook.Worksheets.Add(seriesName);
+
+                    var row = Constants.ExcelStartRow;
+
+                    worksheet.Cells[row, Constants.XValueInExcel].Value = Constants.XColumnTitle;
+                    worksheet.Cells[row, Constants.YValueInExcel].Value = Constants.YColumnTitle;
+
+                    row++;
+
+                    var seriesPoints = series.Points;
+
+                    foreach (var point in seriesPoints)
+                    {
+                        worksheet.Cells[row, Constants.XValueInExcel].Value = point.XValue;
+                        worksheet.Cells[row, Constants.YValueInExcel].Value = point.YValues.First();
+
+                        row++;
+                    }
+                }
+
+                excelPackage.SaveAs(fileInfo);
             }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var dialog = new OpenFileDialog())
+            try
             {
-                dialog.Title = "Оберіть файл";
-
-                dialog.Filter = "Excel Files|*.xlsx";
-
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (var dialog = new OpenFileDialog())
                 {
-                    var filePath = dialog.FileName;
+                    dialog.Title = Constants.DialogTitle;
+                    dialog.Filter = Constants.DialogFormat;
 
-                    var fileInfo = new FileInfo(filePath);
-
-                    using (var excelPackage = new ExcelPackage(fileInfo))
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        ClearSeries();
+                        var filePath = dialog.FileName;
 
-                        var worksheets = excelPackage.Workbook.Worksheets;
+                        var fileInfo = new FileInfo(filePath);
 
-                        foreach (var worksheet in worksheets)
+                        using (var excelPackage = new ExcelPackage(fileInfo))
                         {
-                            LoadSeriesFromWorksheet(worksheet);
-                        }
+                            ClearSeries();
 
-                        DataChart.Invalidate();
+                            var worksheets = excelPackage.Workbook.Worksheets;
+
+                            foreach (var worksheet in worksheets)
+                            {
+                                LoadSeriesFromWorksheet(worksheet);
+                            }
+
+                            DataChart.Invalidate();
+                        }
                     }
                 }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
             }
         }
 
@@ -375,22 +396,20 @@ namespace Demo
             var series = DataChart.Series[excelWorksheet.Name];
 
             var points = new List<SeriesPoint>();
-            
-            for (var row = 2;; row++)
+
+            var maxRows = excelWorksheet.Dimension.Rows;
+
+            for (var row = Constants.ExcelReadStartRow; row <= maxRows; row++)
             {
-                if (!string.IsNullOrEmpty(excelWorksheet.Cells[row, 1]?.Value?.ToString()))
-                {
-                    var x = Convert.ToDouble(excelWorksheet.Cells[row, 1].Value);
-                    var y = Convert.ToDouble(excelWorksheet.Cells[row, 2].Value);
+                if (string.IsNullOrWhiteSpace(excelWorksheet.Cells[row, Constants.XValueInExcel].Value?.ToString()))
+                    throw new InvalidOperationException("File contains empty rows");
 
-                    var point = new SeriesPoint(x, y);
+                var x = Convert.ToDouble(excelWorksheet.Cells[row, Constants.XValueInExcel].Value);
+                var y = Convert.ToDouble(excelWorksheet.Cells[row, Constants.YValueInExcel].Value);
 
-                    points.Add(point);
-                }
-                else
-                {
-                    break;
-                }
+                var point = new SeriesPoint(x, y);
+
+                points.Add(point);
             }
 
             foreach (var point in points)
