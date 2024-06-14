@@ -1,4 +1,4 @@
-﻿namespace Demo
+﻿namespace Demo.Models
 {
     public class SeriesPoint
     {

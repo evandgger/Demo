@@ -1,12 +1,14 @@
-﻿namespace Demo.SeriesProcessors;
+﻿using Demo.Models;
+
+namespace Demo.SeriesProcessors;
 
 public class SquareProcessor : ISeriesProcessor
 {
-    public List<SeriesPoint> Process(List<double> xPoints)
+    public List<SeriesPoint> Process(SeriesDetails details)
     {
         var result = new List<SeriesPoint>();
 
-        foreach (var x in xPoints)
+        foreach (var x in details.XPoints)
         {
             var y = Math.Pow(x, 2);
 

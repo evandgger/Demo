@@ -22,7 +22,8 @@ namespace Demo
             {
                 { Constants.LinearSeries,  new LinearProcessor() },
                 { Constants.SquareSeries,  new SquareProcessor() },
-                { Constants.SinSeries,  new SinProcessor() }
+                { Constants.SinSeries,  new SinProcessor() },
+                { Constants.RandomSeries,  new RandomProcessor() },
             };
     }
 }
