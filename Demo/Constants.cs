@@ -1,5 +1,6 @@
 ﻿namespace Demo;
 
+// Сюди ми виносимо усі магічні числа, текст, або інші змінні, які часто використовуються, або мають певне значення і його необхі
 public static class Constants
 {
     public const string LinearSeries = "y = x";

@@ -9,6 +9,7 @@ namespace Demo.Forms
             InitializeComponent();
         }
 
+        // Властивості нашої форми, які будуть видимі для батьківських форм
         public double RandomMinimum { get; set; }
 
         public double RandomMaximum { get; set; }
@@ -28,6 +29,7 @@ namespace Demo.Forms
                 RandomMinimum = randomMinimum;
                 RandomMaximum = randomMaximum;
 
+                // руками зачиняємо вікно, коли усе обрано
                 Close();
             }
             else
@@ -47,23 +49,6 @@ namespace Demo.Forms
 
                 MessageBox.Show(@$"Проміжок ({end};{start}) змінений на ({start};{end})");
             }
-        }
-
-        private bool ParseDoubleInput(string input, string nameOfField, out double value)
-        {
-            var isValid = double.TryParse(input, out value);
-
-            if (string.IsNullOrEmpty(input))
-            {
-                MessageBox.Show($"{nameOfField} не може бути пустим");
-            }
-
-            if (!isValid)
-            {
-                MessageBox.Show($"{nameOfField} не може містити букви");
-            }
-
-            return isValid;
         }
     }
 }

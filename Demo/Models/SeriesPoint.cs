@@ -1,5 +1,6 @@
 ﻿namespace Demo.Models
 {
+    // наш клас що описує просту точку у двовимірному просторі
     public class SeriesPoint
     {
         public SeriesPoint(double x, double y)
