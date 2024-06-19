@@ -34,6 +34,7 @@
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             DataChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             RangeGroupBox = new GroupBox();
             StepLabel = new Label();
@@ -44,6 +45,7 @@
             StartRangeInput = new TextBox();
             BuildButton = new Button();
             VisualizationGroupBox = new GroupBox();
+            CustomCheckBox = new CheckBox();
             RandomRangeLabel = new Label();
             RandomCheckBox = new CheckBox();
             SinCheckBox = new CheckBox();
@@ -58,41 +60,48 @@
             ShiftXCheckBox = new CheckBox();
             TransformationLabel = new Label();
             TransformationInput = new TextBox();
-            menuStrip1 = new MenuStrip();
+            menuStrip = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             openToolStripMenuItem = new ToolStripMenuItem();
             saveAsToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
+            CustomFormulaLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)DataChart).BeginInit();
             RangeGroupBox.SuspendLayout();
             VisualizationGroupBox.SuspendLayout();
             TransformationGroupBox.SuspendLayout();
-            menuStrip1.SuspendLayout();
+            menuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // DataChart
             // 
             DataChart.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            DataChart.BackColor = Color.Transparent;
             DataChart.BorderlineColor = Color.Transparent;
+            chartArea1.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Vertical | System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal;
             chartArea1.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
             chartArea1.AxisX.Crossing = 0D;
             chartArea1.AxisX.LabelStyle.Format = "N0";
+            chartArea1.AxisX.LineWidth = 2;
             chartArea1.AxisX.MajorGrid.Enabled = false;
             chartArea1.AxisX.MinorTickMark.Enabled = true;
             chartArea1.AxisX.Title = "X";
             chartArea1.AxisY.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
             chartArea1.AxisY.Crossing = 0D;
             chartArea1.AxisY.LabelStyle.Format = "N0";
+            chartArea1.AxisY.LineWidth = 2;
             chartArea1.AxisY.MajorGrid.Enabled = false;
             chartArea1.AxisY.MinorTickMark.Enabled = true;
             chartArea1.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
             chartArea1.AxisY.Title = "Y";
             chartArea1.BackColor = Color.Transparent;
-            chartArea1.BackSecondaryColor = Color.Transparent;
+            chartArea1.BackImageTransparentColor = Color.FromArgb(224, 224, 224);
+            chartArea1.BackSecondaryColor = Color.FromArgb(224, 224, 224);
             chartArea1.CursorX.IsUserSelectionEnabled = true;
             chartArea1.CursorY.IsUserSelectionEnabled = true;
             chartArea1.Name = "ChartArea";
             DataChart.ChartAreas.Add(chartArea1);
+            legend1.BackColor = Color.Transparent;
             legend1.Name = "Legend1";
             DataChart.Legends.Add(legend1);
             DataChart.Location = new Point(12, 45);
@@ -100,28 +109,40 @@
             series1.BorderWidth = 3;
             series1.ChartArea = "ChartArea";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.LabelBackColor = Color.Transparent;
             series1.Legend = "Legend1";
             series1.Name = "y = x^2";
             series2.BorderWidth = 3;
             series2.ChartArea = "ChartArea";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.LabelBackColor = Color.Transparent;
             series2.Legend = "Legend1";
             series2.Name = "y = x";
             series3.BorderWidth = 3;
             series3.ChartArea = "ChartArea";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.LabelBackColor = Color.Transparent;
             series3.Legend = "Legend1";
             series3.Name = "y = sin(x)";
             series4.BorderWidth = 3;
             series4.ChartArea = "ChartArea";
             series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.LabelBackColor = Color.Transparent;
             series4.Legend = "Legend1";
             series4.Name = "y = random";
+            series5.BorderColor = Color.White;
+            series5.BorderWidth = 3;
+            series5.ChartArea = "ChartArea";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series5.Color = Color.DarkGreen;
+            series5.Legend = "Legend1";
+            series5.Name = "y = custom";
             DataChart.Series.Add(series1);
             DataChart.Series.Add(series2);
             DataChart.Series.Add(series3);
             DataChart.Series.Add(series4);
-            DataChart.Size = new Size(669, 565);
+            DataChart.Series.Add(series5);
+            DataChart.Size = new Size(744, 618);
             DataChart.TabIndex = 0;
             DataChart.Text = "chart1";
             // 
@@ -134,7 +155,8 @@
             RangeGroupBox.Controls.Add(StepInput);
             RangeGroupBox.Controls.Add(EndRangeInput);
             RangeGroupBox.Controls.Add(StartRangeInput);
-            RangeGroupBox.Location = new Point(704, 36);
+            RangeGroupBox.ForeColor = Color.Black;
+            RangeGroupBox.Location = new Point(779, 36);
             RangeGroupBox.Name = "RangeGroupBox";
             RangeGroupBox.Size = new Size(255, 170);
             RangeGroupBox.TabIndex = 1;
@@ -195,10 +217,10 @@
             // BuildButton
             // 
             BuildButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BuildButton.BackColor = SystemColors.ActiveBorder;
+            BuildButton.BackColor = SystemColors.ButtonHighlight;
             BuildButton.FlatAppearance.BorderColor = Color.FromArgb(0, 0, 64);
             BuildButton.FlatAppearance.BorderSize = 5;
-            BuildButton.Location = new Point(788, 587);
+            BuildButton.Location = new Point(863, 640);
             BuildButton.Name = "BuildButton";
             BuildButton.Size = new Size(91, 23);
             BuildButton.TabIndex = 2;
@@ -210,6 +232,8 @@
             // 
             VisualizationGroupBox.Anchor = AnchorStyles.Right;
             VisualizationGroupBox.BackColor = Color.Transparent;
+            VisualizationGroupBox.Controls.Add(CustomFormulaLabel);
+            VisualizationGroupBox.Controls.Add(CustomCheckBox);
             VisualizationGroupBox.Controls.Add(RandomRangeLabel);
             VisualizationGroupBox.Controls.Add(RandomCheckBox);
             VisualizationGroupBox.Controls.Add(SinCheckBox);
@@ -217,12 +241,23 @@
             VisualizationGroupBox.Controls.Add(LinearCheckBox);
             VisualizationGroupBox.Controls.Add(SquareCheckBox);
             VisualizationGroupBox.Font = new Font("Segoe UI", 9F);
-            VisualizationGroupBox.Location = new Point(701, 201);
+            VisualizationGroupBox.Location = new Point(776, 227);
             VisualizationGroupBox.Name = "VisualizationGroupBox";
-            VisualizationGroupBox.Size = new Size(249, 162);
+            VisualizationGroupBox.Size = new Size(249, 187);
             VisualizationGroupBox.TabIndex = 3;
             VisualizationGroupBox.TabStop = false;
             VisualizationGroupBox.Text = "Візуалізація";
+            // 
+            // CustomCheckBox
+            // 
+            CustomCheckBox.AutoSize = true;
+            CustomCheckBox.Location = new Point(11, 128);
+            CustomCheckBox.Name = "CustomCheckBox";
+            CustomCheckBox.Size = new Size(86, 19);
+            CustomCheckBox.TabIndex = 6;
+            CustomCheckBox.Text = "y = custom";
+            CustomCheckBox.UseVisualStyleBackColor = true;
+            CustomCheckBox.CheckedChanged += CustomCheckBox_CheckedChanged;
             // 
             // RandomRangeLabel
             // 
@@ -258,7 +293,7 @@
             // 
             ChartTypeComboBox.FormattingEnabled = true;
             ChartTypeComboBox.Items.AddRange(new object[] { "Точковий", "Діаграма", "Лінія" });
-            ChartTypeComboBox.Location = new Point(6, 128);
+            ChartTypeComboBox.Location = new Point(9, 153);
             ChartTypeComboBox.Name = "ChartTypeComboBox";
             ChartTypeComboBox.Size = new Size(121, 23);
             ChartTypeComboBox.TabIndex = 2;
@@ -294,7 +329,7 @@
             TransformationGroupBox.Controls.Add(ShiftXCheckBox);
             TransformationGroupBox.Controls.Add(TransformationLabel);
             TransformationGroupBox.Controls.Add(TransformationInput);
-            TransformationGroupBox.Location = new Point(700, 369);
+            TransformationGroupBox.Location = new Point(776, 445);
             TransformationGroupBox.Name = "TransformationGroupBox";
             TransformationGroupBox.Size = new Size(248, 189);
             TransformationGroupBox.TabIndex = 4;
@@ -367,14 +402,15 @@
             TransformationInput.Size = new Size(100, 23);
             TransformationInput.TabIndex = 0;
             // 
-            // menuStrip1
+            // menuStrip
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, aboutToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(971, 24);
-            menuStrip1.TabIndex = 6;
-            menuStrip1.Text = "menuStrip1";
+            menuStrip.BackColor = SystemColors.ButtonFace;
+            menuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, aboutToolStripMenuItem });
+            menuStrip.Location = new Point(0, 0);
+            menuStrip.Name = "menuStrip";
+            menuStrip.Size = new Size(1046, 24);
+            menuStrip.TabIndex = 6;
+            menuStrip.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
@@ -404,19 +440,28 @@
             aboutToolStripMenuItem.Text = "About";
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
+            // CustomFormulaLabel
+            // 
+            CustomFormulaLabel.AutoSize = true;
+            CustomFormulaLabel.Location = new Point(99, 129);
+            CustomFormulaLabel.Name = "CustomFormulaLabel";
+            CustomFormulaLabel.Size = new Size(0, 15);
+            CustomFormulaLabel.TabIndex = 7;
+            CustomFormulaLabel.Visible = false;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLight;
-            ClientSize = new Size(971, 688);
-            Controls.Add(menuStrip1);
+            ClientSize = new Size(1046, 741);
+            Controls.Add(menuStrip);
             Controls.Add(TransformationGroupBox);
             Controls.Add(VisualizationGroupBox);
             Controls.Add(BuildButton);
             Controls.Add(RangeGroupBox);
             Controls.Add(DataChart);
-            MainMenuStrip = menuStrip1;
+            MainMenuStrip = menuStrip;
             Name = "MainForm";
             Text = "Main";
             ((System.ComponentModel.ISupportInitialize)DataChart).EndInit();
@@ -426,8 +471,8 @@
             VisualizationGroupBox.PerformLayout();
             TransformationGroupBox.ResumeLayout(false);
             TransformationGroupBox.PerformLayout();
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
+            menuStrip.ResumeLayout(false);
+            menuStrip.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -457,11 +502,13 @@
         private CheckBox ShiftYCheckBox;
         private CheckBox ShiftXCheckBox;
         private Label TransformationLabel;
-        private MenuStrip menuStrip1;
+        private MenuStrip menuStrip;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
         private ToolStripMenuItem saveAsToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
         private Label RandomRangeLabel;
+        private CheckBox CustomCheckBox;
+        private Label CustomFormulaLabel;
     }
 }

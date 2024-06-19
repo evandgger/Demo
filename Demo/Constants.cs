@@ -11,6 +11,8 @@ public static class Constants
 
     public const string RandomSeries = "y = random";
 
+    public const string CustomSeries = "y = custom";
+
 
     public const string ShiftXCheckBox = "ShiftXCheckBox";
     

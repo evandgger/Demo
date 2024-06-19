@@ -117,10 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>172, 17</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>51</value>
-  </metadata>
+  <data name="RulesTextArea.Text" xml:space="preserve">
+    <value>Abs: Abs(x) - Returns the absolute value of x.
+Acos: Acos(x) - Returns the arccosine of x (in radians).
+Asin: Asin(x) - Returns the arcsine of x (in radians).
+Atan: Atan(x) - Returns the arctangent of x (in radians).
+Ceiling: Ceiling(x) - Returns the smallest integer greater than or equal to x.
+Cos: Cos(x) - Returns the cosine of x (where x is in radians).
+Exp: Exp(x) - Returns e raised to the power of x.
+Floor: Floor(x) - Returns the largest integer less than or equal to x.
+Log: Log(x) - Returns the natural logarithm (base e) of x.
+Log10: Log10(x) - Returns the logarithm (base 10) of x.
+Pow: Pow(x, y) - Returns x raised to the power of y.
+Round: Round(x) - Rounds x to the nearest integer.
+Sin: Sin(x) - Returns the sine of x (where x is in radians).
+Sqrt: Sqrt(x) - Returns the square root of x.
+Tan: Tan(x) - Returns the tangent of x (where x is in radians).
+Truncate: Truncate(x) - Returns the integral part of x, discarding any fractional digits.</value>
+  </data>
 </root>
