@@ -10,9 +10,9 @@ namespace Demo.Forms
         }
 
         // Властивості нашої форми, які будуть видимі для батьківських форм
-        public double RandomMinimum { get; set; }
+        public double? RandomMinimum { get; set; }
 
-        public double RandomMaximum { get; set; }
+        public double? RandomMaximum { get; set; }
 
         private void ApplyRandomButton_Click(object sender, EventArgs e)
         {

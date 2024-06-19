@@ -27,19 +27,14 @@ namespace Demo.Forms
             if (isConfigurationValid)
             {
                 ClearSeries();
-
                 ValidateRange(ref startRange, ref endRange);
                 ValidateStep(ref step);
-
                 EnsureCheckBoxChecked();
 
                 var xPoints = GetXPoints(startRange, endRange, step);
-
                 var details = GetSeriesDetails(xPoints);
-
                 var checkedSeries = GetListOfCheckedSeries();
 
-               
                 foreach (var seriesName in checkedSeries)
                 {
                     var series = DataChart.Series[seriesName];
@@ -200,41 +195,63 @@ namespace Demo.Forms
         private void RandomCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (RandomCheckBox.Checked)
-            {
-                var randomNumberForm = new RandomNumbersForm();
+            { 
+                ProcessRandomRangeForm();
+            }
+            else
+            { 
+                ResetRandomRangeAppearance();
+            }
+        }
 
-                randomNumberForm.FormClosed += (o, args) =>
+        public void ProcessRandomRangeForm()
+        {
+            var randomNumberForm = new RandomNumbersForm();
+
+            var isRangeValid = false;
+
+            randomNumberForm.FormClosed += (o, args) =>
+            {
+                if (randomNumberForm.RandomMinimum.HasValue && randomNumberForm.RandomMaximum.HasValue)
                 {
                     RandomMinimum = randomNumberForm.RandomMinimum;
                     RandomMaximum = randomNumberForm.RandomMaximum;
-                };
+                    isRangeValid = true;
+                }
+            };
 
-                randomNumberForm.ShowDialog();
+            randomNumberForm.ShowDialog();
 
+            if (isRangeValid)
+            {
                 RandomRangeLabel.Text = $"({RandomMinimum};{RandomMaximum})";
                 RandomRangeLabel.Visible = true;
             }
             else
             {
-                RandomMinimum = null;
-                RandomMaximum = null;
-                RandomRangeLabel.Text = string.Empty;
-                RandomRangeLabel.Visible = false;
+                RandomCheckBox.Checked = false;
             }
+        }
+
+        public void ResetRandomRangeAppearance()
+        {
+            RandomMinimum = null;
+            RandomMaximum = null;
+            RandomRangeLabel.Text = string.Empty;
+            RandomRangeLabel.Visible = false;
         }
 
         private void TransformButton_Click(object sender, EventArgs e)
         {
             var checkedSeries = GetListOfCheckedSeries();
+
             if (!checkedSeries.Any() || !DoesSeriesExist())
             {
                 MessageBox.Show("Створіть хоча б один графік");
-
                 return;
             }
 
             var coefficientInput = TransformationInput.Text;
-
             var isCoefficientValid = InputHelper.ParseDoubleInput(coefficientInput, TransformationLabel.Text, out var coefficient);
 
             if (isCoefficientValid)
@@ -426,24 +443,46 @@ namespace Demo.Forms
         {
             if (CustomCheckBox.Checked)
             {
-                var customExpressionForm = new CustomExpressionForm();
-
-                customExpressionForm.FormClosed += (o, args) =>
-                {
-                    CustomFormula = customExpressionForm.Formula;
-                };
-
-                customExpressionForm.ShowDialog();
-
-                CustomFormulaLabel.Text = @$"f(x) = {CustomFormula}";
-                CustomFormulaLabel.Visible = true;
+                ProcessCustomExpressionForm();
             }
             else
             {
-                CustomFormulaLabel.Text = string.Empty;
-                CustomFormulaLabel.Visible = false;
-                CustomFormula = null;
+                ResetCustomFormulaAppearance();
             }
+        }
+
+        public void ProcessCustomExpressionForm()
+        {
+            var customExpressionForm = new CustomExpressionForm();
+            var isFormulaValid = false;
+
+            customExpressionForm.FormClosed += (o, args) =>
+            {
+                if (!string.IsNullOrWhiteSpace(customExpressionForm.Formula))
+                {
+                    CustomFormula = customExpressionForm.Formula;
+                    isFormulaValid = true;
+                }
+                else
+                {
+                    CustomCheckBox.Checked = false;
+                }
+            };
+
+            customExpressionForm.ShowDialog();
+
+            if (isFormulaValid)
+            {
+                CustomFormulaLabel.Text = @$"f(x) = {CustomFormula}";
+                CustomFormulaLabel.Visible = true;
+            }
+        }
+
+        public void ResetCustomFormulaAppearance()
+        {
+            CustomFormulaLabel.Text = string.Empty;
+            CustomFormulaLabel.Visible = false;
+            CustomFormula = null;
         }
     }
 }
