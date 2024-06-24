@@ -27,7 +27,7 @@ namespace Demo.Forms
                 }
 
                 var value = expression.Evaluate();
-                
+
                 Formula = formula;
 
                 Close();
