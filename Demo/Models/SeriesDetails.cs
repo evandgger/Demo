@@ -7,5 +7,7 @@
         public double? RandomMinimum { get; set; }
 
         public double? RandomMaximum { get; set; }
+
+        public string? CustomFormula { get; set; }
     }
 }

@@ -28,6 +28,7 @@ namespace Demo
                 { Constants.SquareSeries,  new SquareProcessor() },
                 { Constants.SinSeries,  new SinProcessor() },
                 { Constants.RandomSeries,  new RandomProcessor() },
+                { Constants.CustomSeries,  new CustomFormulaProcessor() },
             };
 
         // Ми вказали, як змінювати графіки в залежності від натиснутого чекбоксу
